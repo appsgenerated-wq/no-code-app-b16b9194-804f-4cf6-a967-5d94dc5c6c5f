@@ -1,0 +1,14 @@
+{
+  "name": "manifest-backend",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node node_modules/manifest/dist/manifest/src/main.js",
+    "dev": "node node_modules/manifest/scripts/watch/watch.js",
+    "build": "npx @mnfst/cli build",
+    "manifest": "node node_modules/manifest/dist/manifest/src/main.js"
+  },
+  "dependencies": {
+    "manifest": "^4.16.1",
+    "@mnfst/cli": "^4.16.1"
+  }
+}

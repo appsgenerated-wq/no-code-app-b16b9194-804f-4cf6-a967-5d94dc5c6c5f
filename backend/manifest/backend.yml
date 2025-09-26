@@ -1,0 +1,49 @@
+name: GrapeTracker
+description: A web application to catalog and track different grape varieties.
+
+entities:
+  User:
+    authenticable: true
+    properties:
+      - name
+      - { name: email, type: email }
+      - { name: role, type: choice, options: { values: [admin, user], default: user } }
+    policies:
+      create:
+        - access: admin
+      read:
+        - { access: restricted, allow: User, condition: self }
+      update:
+        - { access: restricted, allow: User, condition: self }
+      delete:
+        - access: admin
+      signup:
+        - access: public
+
+  GrapeVariety:
+    properties:
+      - { name: name, type: string }
+      - { name: color, type: choice, options: { values: [Red, White, Black, Rosé], default: Red } }
+      - { name: origin, type: string }
+      - { name: notes, type: text }
+      - { name: photo, type: image, options: { sizes: { thumbnail: { width: 400, height: 400, fit: cover } } } }
+    belongsTo:
+      - { name: grower, entity: User }
+    policies:
+      create:
+        - { access: restricted, allow: User }
+      read:
+        - access: public
+      update:
+        - { access: restricted, allow: User, condition: self }
+      delete:
+        - { access: restricted, allow: User, condition: self }
+
+
+# Health check endpoint for connection testing
+endpoints:
+  healthCheck:
+    path: /api/health
+    method: GET
+    handler: healthCheck
+    policies: []  # Public access for health checks
